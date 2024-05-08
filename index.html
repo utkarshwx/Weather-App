@@ -37,18 +37,15 @@
             </button>
 
             <div class="container">
-
-                <p id="temp"></p>
-                <p id="fltemp"></p>
-                <p id="maxtemp"></p>
-                <p id="mintemp"></p>
-
-            </div>
-
-            <div class="container">
-
-                <p id="cityname" style="font-weight: 400; font-size: 30px"></p>
-                <p id="citycoun" ></p>              
+                <p style="font-size: large;">Current temperature <a id="temp"/>-- </a>°C</p>
+                <p style="font-size: small;">Description: <a id="desc"/></a> </p>
+                <p style="font-size: small;">Feel's like <a id="fltemp"/></a>°C</p>
+                <p style="font-size: small;">High/Low <a id="maxtemp"/>--</a>°/<a id="mintemp"/>--</a>°</p>
+                <p id="cityname" style="font-weight: 500; font-size: medium"></p>
+                <p id="citycoun" ></p>  
+                
+                <p style="margin-top: 5px; margin-left: 10px; margin-right: 10px; font-size: small;">Wind: <a id="wind">--</a>km/h</p>
+                <p style="margin-top: 5px; margin-left: 10px; margin-right: 10px; font-size: small;">Humidity: <a id="humidity">--</a>%</p>
 
             </div>
 
@@ -58,23 +55,7 @@
                 <p id="sunset"></p>                
 
             </div>
-
             
-        </div>
-
-        <div 
-            class="container"
-            style=" 
-                background-color: white; 
-                margin: 10px; 
-                border-radius: 10px; box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2); 
-                width: fit-content;
-                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;    
-        ">
-
-            <p id="wind" style="margin-top: 5px; margin-left: 10px; margin-right: 10px;"></p>
-            <p id="humidity" style="margin-top: 5px; margin-left: 10px; margin-right: 10px;"></p>
-
         </div>
     </div>
 
@@ -91,26 +72,27 @@
             const timezoneOffset = date.getTimezoneOffset();
             const timezoneValue = data.timezone - timezoneOffset;
 
-            const sunrise = new Date(data.sys.sunrise * 1000 + timezoneValue);
-            const sunset = new Date(data.sys.sunset * 1000 + timezoneValue);
+            const sunrise = new Date(data.sys.sunrise * 1000);
+            const sunset = new Date(data.sys.sunset * 1000);
 
             document.getElementById("sunrise").textContent = sunrise;
             document.getElementById("sunset").textContent = sunset;
 
-            document.getElementById("temp").textContent = 297.95 - data.main.temp;
-            document.getElementById("fltemp").textContent = 297.95 - data.main.feels_like;
-            document.getElementById("maxtemp").textContent = 297.95 - data.main.temp_max;
-            document.getElementById("mintemp").textContent = 297.95 - data.main.temp_min;
+            document.getElementById("temp").textContent = (data.main.temp - 273.15).toFixed(2);
+            document.getElementById("fltemp").textContent = (data.main.feels_like - 273.15).toFixed(2);
+            document.getElementById("maxtemp").textContent = (data.main.temp_max - 273.15).toFixed(2);
+            document.getElementById("mintemp").textContent = (data.main.temp_min - 273.15).toFixed(2);
 
             document.getElementById("wind").textContent = data.wind.speed;
             document.getElementById("humidity").textContent = data.main.humidity;
+
+            document.getElementById("desc").textContent = data.weather[0].description;
 
 
 
             
             console.log(data.main.temp_max);            
             console.log(data.main.temp_min);
-            console.log(data.weather[0].description);
             console.log(data.wind.deg);
             console.log(data.wind.speed);
 
