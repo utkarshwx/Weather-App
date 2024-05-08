@@ -33,27 +33,80 @@
                 onclick="weather()">
                 Search
             </button>
+
+            <div class="container">
+
+                <p id="temp"></p>
+                <p id="fltemp"></p>
+                <p id="maxtemp"></p>
+                <p id="mintemp"></p>
+
+            </div>
+
+            <div class="container">
+
+                <p id="cityname"></p>
+                <p id="citycoun"></p>
+                <p id="timezone"></p>                
+
+            </div>
+
+            <div>
+
+                <p id="sunrise"></p>
+                <p id="sunset"></p>                
+
+            </div>
+
+            <div class="container">
+
+                <p id="wind"></p>
+                <p id="humidity"></p>
+
+            </div>
         </div>
     </div>
 
     <script>
         async function weather(){
 
+            const date = new Date();
             var res= await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${document.getElementById("city").value}&appid=7ff5e31320f4561db8eeb0c9a3866bda`);
             var data= await res.json();
 
+            document.getElementById("cityname").textContent = data.name;
+            document.getElementById("citycoun").textContent = data.sys.country;            
 
-            console.log(data);
+            const timezoneOffset = date.getTimezoneOffset();
+            const timezoneValue = data.timezone - timezoneOffset;
+            document.getElementById("timezone").textContent = timezoneValue;
+
+            var datetime = data.sys.sunrise;
+            var time = datetime.slice(-8); // returns "08:30:00"
+            console.log(time);
+
+            const sunrise = time;
+            const sunset = new Date(data.sys.sunset * 1000 + timezoneValue);
+
+            document.getElementById("sunrise").textContent = sunrise;
+            document.getElementById("sunset").textContent = sunset;
+
+            document.getElementById("temp").textContent = 297.95 - data.main.temp;
+            document.getElementById("fltemp").textContent = 297.95 - data.main.feels_like;
+            document.getElementById("maxtemp").textContent = 297.95 - data.main.temp_max;
+            document.getElementById("mintemp").textContent = 297.95 - data.main.temp_min;
+
+            document.getElementById("wind").textContent = data.wind.speed;
+            document.getElementById("humidity").textContent = data.main.humidity;
+
+
+
+            
             console.log(data.main.temp_max);            
             console.log(data.main.temp_min);
-            console.log(data.name);
-            console.log(data.sys.country);
-            console.log(data.timezone);
             console.log(data.weather[0].description);
             console.log(data.wind.deg);
             console.log(data.wind.speed);
-            console.log(data.sys.timezone);
-            console.log(data.)
 
         }
     </script>
