@@ -11,9 +11,11 @@
         <div 
             class="container" 
             style=" 
-                background-color: white; padding: 30px; 
+                background-color: white; 
+                padding: 30px; margin:10px; 
                 border-radius: 10px; box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2); 
-                width: max-content;
+                text-align: center;
+                max-width: max-content;
                 font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;    
         ">
             <h1>Welcome to weather app </h1>
@@ -45,9 +47,8 @@
 
             <div class="container">
 
-                <p id="cityname"></p>
-                <p id="citycoun"></p>
-                <p id="timezone"></p>                
+                <p id="cityname" style="font-weight: 400; font-size: 30px"></p>
+                <p id="citycoun" ></p>              
 
             </div>
 
@@ -58,12 +59,22 @@
 
             </div>
 
-            <div class="container">
+            
+        </div>
 
-                <p id="wind"></p>
-                <p id="humidity"></p>
+        <div 
+            class="container"
+            style=" 
+                background-color: white; 
+                margin: 10px; 
+                border-radius: 10px; box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2); 
+                width: fit-content;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;    
+        ">
 
-            </div>
+            <p id="wind" style="margin-top: 5px; margin-left: 10px; margin-right: 10px;"></p>
+            <p id="humidity" style="margin-top: 5px; margin-left: 10px; margin-right: 10px;"></p>
+
         </div>
     </div>
 
@@ -79,13 +90,8 @@
 
             const timezoneOffset = date.getTimezoneOffset();
             const timezoneValue = data.timezone - timezoneOffset;
-            document.getElementById("timezone").textContent = timezoneValue;
 
-            var datetime = data.sys.sunrise;
-            var time = datetime.slice(-8); // returns "08:30:00"
-            console.log(time);
-
-            const sunrise = time;
+            const sunrise = new Date(data.sys.sunrise * 1000 + timezoneValue);
             const sunset = new Date(data.sys.sunset * 1000 + timezoneValue);
 
             document.getElementById("sunrise").textContent = sunrise;
